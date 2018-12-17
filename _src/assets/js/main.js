@@ -6,20 +6,12 @@
 
 const inputName = document.querySelector('.search__name');
 const searchButton = document.querySelector('.search__button');
+/*let arrayObjectsSeries = []; //array donde almaceno mis nuevos objetos*/
 
 function searchShow() {
-  
-  //let arrayShow;
-
+ 
   let url = giveURL();
-  let arrayObjectsSeries = [];
-  let objectSerie = {
-    name: 'pruebaNombre',
-    imageUrl:'pruebaUrl',
-
-  };
-
-  
+    
   fetch(url)
     .then(function (response) {
       return response.json();
@@ -27,36 +19,10 @@ function searchShow() {
     .then(function (data) {
       
       let arrayShows = data;
-      let nameServer;
-      let arrayImageUrlServer;
 
-      //recorremos el array de resultados que nos devuelve la petición
-
-      for (let i = 0; i < arrayShows.length ; i++ ) {
-        console.log('contenido de data en cada iteración', arrayShows[i]);
-        nameServer = arrayShows[i].show.name;
-
-        console.log('nombre de la serie', nameServer);
-
-        //y almacenamos los resultados que nos interesan (nombre de serie y url de imagen) en nuestro propio array de objetos series
-        for ( let j = 0; j < arrayShows.length ; j++) {
-          
-          arrayImageUrlServer = arrayShows[i].show.image;
-          
-          console.log('url de imagen', arrayImageUrlServer);
-
-        }
-
-
-        //objectSerie.name = 
-
-      }
-      
-    
-
-
+      searchData(arrayShows);
+         
     });
-
 
 }
 
@@ -74,6 +40,56 @@ function giveURL() {
   return url;
 
 }
+
+/** Función que hace la búsqueda de los datos que necesitamos , en la respuesta que nos da el fetch */
+
+function searchData (arrayShows) {
+
+  let nameServer = [];
+  let arrayImageUrlServer = [];
+
+  //recorremos el array de resultados que nos devuelve la petición y almacenamos los resultados que nos interesan (nombre de serie y url de imagen) en nuestro propio array de objetos series
+
+  for (let i = 0; i < arrayShows.length ; i++ ) {
+    
+    nameServer.push(arrayShows[i].show.name);
+    arrayImageUrlServer.push(arrayShows[i].show.image);
+  
+    /**creo mi objeto, dentro de la posición i de mi array de objetos 
+      createShow(nameServer,arrayImageUrlServer);
+    */
+
+  }
+  console.log('nombre de la serie', nameServer);
+  console.log('url de imagen', arrayImageUrlServer);
+      
+}
+
+
+/*
+** Función que crea un objeto de tipo Show 
+ * parametros: 
+ *  name: string, nombre de la serie
+ *  image: array de strings, con dos urls distintas
+*
+
+function tvShow( name, image) {
+  this.name = name;
+  this.imageURL = image;
+      
+}
+
+**Función que crea un objeto y lo guarda en el array de objetos 
+ * recibe por parámetro el nombre que nos da el server y el array de URLs que nos da el server
+*
+function createShow( nombreDelServer, arrayUrlsImageServer) {
+  
+  let tvShow = new tvShow(nombreDelServer, arrayUrlsImageServer);
+  arrayObjectsSeries.push(tvShow);
+   
+}
+*/
+
 
 
 searchButton.addEventListener('click', searchShow);
