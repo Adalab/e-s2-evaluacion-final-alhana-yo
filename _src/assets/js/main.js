@@ -94,20 +94,38 @@ function addListeners () {
 function favourite(ev) {
   let currentLi = ev.currentTarget;
   let infoCurrentLi;
-    
-  currentLi.classList.toggle('list__element--favourite');
+  let toggle;
+      
+  toggle = currentLi.classList.toggle('list__element--favourite');
   
   for ( let i = 0; i < currentLi.children.length-1; i++) {
-    infoCurrentLi = [currentLi.children[i].src, currentLi.children[i+1].innerHTML];  
+      
+    infoCurrentLi = [currentLi.children[i].src, currentLi.children[i+1].innerHTML]; 
+        
   }
-  console.log(infoCurrentLi);
+
   //si lo marco: agregamelo al array
   arrayFavourites.push(infoCurrentLi);
-  //si lo desmarco: quitamelo del array
-  console.log('array favoritos general', arrayFavourites);
+
+  //console.log('el array del current', infoCurrentLi);
+  //console.log ('el array global', arrayFavourites);
+  console.log('toggle', toggle);
 
   
+  if (!toggle) {
+    //si lo desmarco: quitamelo del array
+    
+    console.log('lo incluye borraloooo', arrayFavourites);
+
+    //Necesito el valor de lo que se ha seleccionado 
+    //encontrarlo en el array
+    //borrarlo del array
+  } 
 }
+
+  
+/**Función que nos devuelve los valores del currentTarget */
+
 
 
 /*
