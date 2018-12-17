@@ -75,7 +75,8 @@ function paintData (arrayShows) {
   list.innerHTML = thingsToPaint;
 
   addListeners();
-    
+
+   
 }
 
 /** Función con la que añadimos los listeners a los li que se hayan pintado */
@@ -85,13 +86,14 @@ function addListeners () {
   let listElements = document.querySelectorAll('.list__element');
 
   for (let i = 0; i < listElements.length; i++) {
-    listElements[i].addEventListener('click', favourite);
+    listElements[i].addEventListener('click', markFavourite);
   }
 
 }
 
-/** Función que marca como favorito (o lo desmarca) el li que se ha clickado. Además almacena en un array la url de su imagen y su título */
-function favourite(ev) {
+/** Función que marca como favorito (o desmarca) el li que se ha clickado. Además almacena (o elimina), en un array de favoritos, la url de su imagen y su título */
+
+function markFavourite(ev) {
   let currentLi = ev.currentTarget;
   let infoCurrentLi;
   let toggle;
@@ -114,6 +116,8 @@ function favourite(ev) {
   }else { //si lo desmarco: quitamelo del array
     
     //hay que encontrarlo en el array
+
+     
     for ( let j = 0; j < arrayFavourites.length; j++) {
       /*
       console.log('iteración',j);
@@ -129,12 +133,23 @@ function favourite(ev) {
         arrayFavourites.splice( arrayPosition, 1 );
       }
     } 
+ 
   } //fin del else
-  console.log('array favoritos al final', arrayFavourites);
+  console.log('array favoritos al final del metodo', arrayFavourites);
+
+  addToLocalStorage(arrayFavourites);
 }
 
   
-/**Función que nos devuelve los valores del currentTarget */
+/**Función que almacena datos en el LocalStorage */
+
+function addToLocalStorage(data) {
+
+  //Si hay datos guardados en localStorage
+
+  //si no hay datos guardados, los guardo
+  localStorage.setItem('Favourite TV Shows', JSON.stringify(arrayFavourites));
+}
 
 
 
