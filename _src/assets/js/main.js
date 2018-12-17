@@ -95,6 +95,7 @@ function favourite(ev) {
   let currentLi = ev.currentTarget;
   let infoCurrentLi;
   let toggle;
+  
       
   toggle = currentLi.classList.toggle('list__element--favourite');
   
@@ -104,23 +105,32 @@ function favourite(ev) {
         
   }
 
-  //si lo marco: agregamelo al array
-  arrayFavourites.push(infoCurrentLi);
-
-  //console.log('el array del current', infoCurrentLi);
-  //console.log ('el array global', arrayFavourites);
   console.log('toggle', toggle);
 
-  
-  if (!toggle) {
-    //si lo desmarco: quitamelo del array
-    
-    console.log('lo incluye borraloooo', arrayFavourites);
+  if (toggle) {
+  //si lo marco (y no está marcado): agregamelo al array
+    arrayFavourites.push(infoCurrentLi);
 
-    //Necesito el valor de lo que se ha seleccionado 
-    //encontrarlo en el array
-    //borrarlo del array
-  } 
+  }else { //si lo desmarco: quitamelo del array
+    
+    //hay que encontrarlo en el array
+    for ( let j = 0; j < arrayFavourites.length; j++) {
+      /*
+      console.log('iteración',j);
+      console.log('¿incluye el título que he desclcado?', arrayFavourites[j].includes(infoCurrentLi[1]));*/
+     
+      console.log('valor en esa iteración',arrayFavourites[j]);
+
+      //si en esa posición del arrayFav tenemos el titulo desclicado
+      if (arrayFavourites[j].includes(infoCurrentLi[1])){ //true
+        let arrayPosition = j;
+        //console.log('posición del array que contiene el titulo', arrayPosition);
+        //borrarlo del array
+        arrayFavourites.splice( arrayPosition, 1 );
+      }
+    } 
+  } //fin del else
+  console.log('array favoritos al final', arrayFavourites);
 }
 
   
