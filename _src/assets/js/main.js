@@ -3,6 +3,7 @@
 const inputName = document.querySelector('.search__name');
 const searchButton = document.querySelector('.search__button');
 const list = document.querySelector('.list');
+let arrayFavourites = [];
 /*let arrayObjectsSeries = []; //array donde almaceno mis nuevos objetos*/
 
 function searchShow() {
@@ -89,10 +90,23 @@ function addListeners () {
 
 }
 
+/** Función que marca como favorito (o lo desmarca) el li que se ha clickado. Además almacena en un array la url de su imagen y su título */
 function favourite(ev) {
   let currentLi = ev.currentTarget;
+  let infoCurrentLi;
     
   currentLi.classList.toggle('list__element--favourite');
+  
+  for ( let i = 0; i < currentLi.children.length-1; i++) {
+    infoCurrentLi = [currentLi.children[i].src, currentLi.children[i+1].innerHTML];  
+  }
+  console.log(infoCurrentLi);
+  //si lo marco: agregamelo al array
+  arrayFavourites.push(infoCurrentLi);
+  //si lo desmarco: quitamelo del array
+  console.log('array favoritos general', arrayFavourites);
+
+  
 }
 
 
@@ -103,7 +117,7 @@ function favourite(ev) {
  *  image: array de strings, con dos urls distintas
 *
 
-function tvShow( name, image) {
+function favouriteTvShow( name, image) {
   this.name = name;
   this.imageURL = image;
       
@@ -112,9 +126,9 @@ function tvShow( name, image) {
 **Función que crea un objeto y lo guarda en el array de objetos 
  * recibe por parámetro el nombre que nos da el server y el array de URLs que nos da el server
 *
-function createShow( nombreDelServer, arrayUrlsImageServer) {
+function createNewShow( nombreDelServer, arrayUrlsImageServer) {
   
-  let tvShow = new tvShow(nombreDelServer, arrayUrlsImageServer);
+  let tvShow = new favouriteTvShow(nombreDelServer, arrayUrlsImageServer);
   arrayObjectsSeries.push(tvShow);
    
 }
