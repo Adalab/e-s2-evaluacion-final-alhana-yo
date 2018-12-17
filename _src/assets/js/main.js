@@ -96,7 +96,6 @@ function favourite(ev) {
 }
 
 
-
 /*
 ** Función que crea un objeto de tipo Show 
  * parametros: 
