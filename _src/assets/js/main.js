@@ -43,13 +43,19 @@ function paintData (arrayShows) {
 
   let nameServer = [];
   let arrayImageUrlServer = [];
-  let thingsToPaint;
+  let thingsToPaint = '';
+  let isFavouriteClass = '';
 
   //recorremos el array de resultados que nos devuelve la petición y almacenamos los resultados que nos interesan (nombre de serie y url de imagen) en nuestros propios arrays de nombres y urls, respectivamente.
 
   for (let i = 0; i < arrayShows.length ; i++ ) {
     
     nameServer.push(arrayShows[i].show.name);
+  /* ESto hace lo mismo que el if
+    const url = arrayShows[i].show.image && arrayShows[i].show.image.medium || 'https://via.placeholder.com/210x295/cccccc/666666/?text=TV';
+    arrayImageUrlServer.push(url);
+    */
+
 
     if (arrayShows[i].show.image){ // true
     
@@ -60,25 +66,38 @@ function paintData (arrayShows) {
       arrayImageUrlServer.push('https://via.placeholder.com/210x295/cccccc/666666/?text=TV');
 
     }
+
+   
   
-    //hago aquí un if que me compruebe si el nombre de la serie está guardado en el LocalStorage. Si está guardado, que me pinte el li con la clase list__element--favourite del CSS, sino, que me lo pinte normal
+    
+    //hago aquí un if que me compruebe Si hay algo guardado en localStorage 
 
-      //me bajo el contenido del LocalStorage a un array y con el método includes, compruebo si ese arraydel Local Storage contiene el nombre que acaban de cargar en la lista
-    let arrayLocalStorageData = localStorage.getItem(keyLocalStorage);
+    if (localStorage.getItem(keyLocalStorage)) { 
+    
+      //me bajo el contenido del LocalStorage a un array y con el método includes, compruebo si ese array (del Local Storage) contiene el nombre que acaban de cargar en la lista
+      let arrayLocalStorageData = JSON.parse(localStorage.getItem(keyLocalStorage));
+      arrayFavourites = arrayLocalStorageData;
+  
+      console.log('viendo lo que tengo en el array en el que me bajo el contenido del localStorage',arrayLocalStorageData);
+      isFavouriteClass = '';
+      for (let j = 0; j < arrayLocalStorageData.length; j++) {
+        if(arrayLocalStorageData[j].includes(arrayShows[i].show.name)){
 
-    console.log('viendo lo que tengo en el array en el que me bajo el contenido del localStorage',arrayLocalStorageData);
-
-    if(arrayLocalStorageData.contains(arrayShows[i].show.name)){
-      console.log('ya está almacenado en el Local Storage');
-
-    } else {
-             
-      thingsToPaint += `
-            <li class="list__element list__element${i}">
-                <img src="${arrayImageUrlServer[i]}" alt="${arrayShows[i].show.name}" class="elemet__image">
-                <p class="element__name">${arrayShows[i].show.name}</p>
-            </li>`;  
+          console.log('ya está almacenado en el Local Storage');
+    
+          isFavouriteClass = 'list__element--favourite';
+        } 
+      }
+      
+    } else { //si no está en localStorage, no es favorito
+      isFavouriteClass = '';
     }
+
+    thingsToPaint += `
+        <li class="list__element list__element${i} ${isFavouriteClass}">
+            <img src="${arrayImageUrlServer[i]}" alt="${arrayShows[i].show.name}" class="elemet__image">
+            <p class="element__name">${arrayShows[i].show.name}</p>
+        </li>`; 
  
   }
   /*console.log('nombre de la serie', nameServer);
@@ -113,11 +132,7 @@ function markFavourite(ev) {
       
   toggle = currentLi.classList.toggle('list__element--favourite');
   
-  for ( let i = 0; i < currentLi.children.length-1; i++) {
-      
-    infoCurrentLi = [currentLi.children[i].src, currentLi.children[i+1].innerHTML]; 
-        
-  }
+  infoCurrentLi = [currentLi.children[0].src, currentLi.children[1].innerHTML]; 
 
   console.log('toggle', toggle);
 
@@ -144,6 +159,11 @@ function markFavourite(ev) {
         //borrarlo del array
         arrayFavourites.splice( arrayPosition, 1 );
       }
+      // const favouriteIndexToEliminate = arrayFavourites.indexOf(infoCurrentLi[1]);
+      // if (favouriteIndexToEliminate >= 0) {
+      //   arrayFavourites.splice( favouriteIndexToEliminate, 1 );
+      // }
+      
     } 
  
   } //fin del else
@@ -192,5 +212,3 @@ function createNewShow( nombreDelServer, arrayUrlsImageServer) {
 
 
 searchButton.addEventListener('click', searchShow);
-
-
