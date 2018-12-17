@@ -1,9 +1,5 @@
 'use strict';
 
-/** url de petición de búsqueda al servidor:
- * http://api.tvmaze.com/search/shows?q=
- */
-
 const inputName = document.querySelector('.search__name');
 const searchButton = document.querySelector('.search__button');
 const list = document.querySelector('.list');
@@ -76,9 +72,28 @@ function paintData (arrayShows) {
   console.log('url de imagen', arrayImageUrlServer);
   console.log('lis almacenados', thingsToPaint);*/
   list.innerHTML = thingsToPaint;
+
+  addListeners();
     
 }
 
+/** Función con la que añadimos los listeners a los li que se hayan pintado */
+
+function addListeners () {
+
+  let listElements = document.querySelectorAll('.list__element');
+
+  for (let i = 0; i < listElements.length; i++) {
+    listElements[i].addEventListener('click', favourite);
+  }
+
+}
+
+function favourite(ev) {
+  let currentLi = ev.currentTarget;
+    
+  currentLi.classList.toggle('list__element--favourite');
+}
 
 
 
