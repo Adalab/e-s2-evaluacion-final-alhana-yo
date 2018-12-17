@@ -208,6 +208,4 @@ function createNewShow( nombreDelServer, arrayUrlsImageServer) {
 }
 */
 
-
-
 searchButton.addEventListener('click', searchShow);
