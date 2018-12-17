@@ -4,8 +4,12 @@ const inputName = document.querySelector('.search__name');
 const searchButton = document.querySelector('.search__button');
 const list = document.querySelector('.list');
 let arrayFavourites = [];
+const keyLocalStorage = 'Favourite TV Shows';
 /*let arrayObjectsSeries = []; //array donde almaceno mis nuevos objetos*/
 
+
+/**Función que hace una petición de búsqueda al servidor con el dato que el usuario nos da.
+ */
 function searchShow() {
  
   let url = giveURL();
@@ -33,15 +37,15 @@ function giveURL() {
   return url;
 }
 
-/** Función que hace la búsqueda de los datos que necesitamos , en la respuesta que nos da el fetch y que los pinta en el html*/
-
+/** Función que hace la búsqueda de los datos que necesitamos , en la respuesta que nos da el fetch y que los pinta en el html
+*/
 function paintData (arrayShows) {
 
   let nameServer = [];
   let arrayImageUrlServer = [];
   let thingsToPaint;
 
-  //recorremos el array de resultados que nos devuelve la petición y almacenamos los resultados que nos interesan (nombre de serie y url de imagen) en nuestro propio array de objetos series
+  //recorremos el array de resultados que nos devuelve la petición y almacenamos los resultados que nos interesan (nombre de serie y url de imagen) en nuestros propios arrays de nombres y urls, respectivamente.
 
   for (let i = 0; i < arrayShows.length ; i++ ) {
     
@@ -57,16 +61,24 @@ function paintData (arrayShows) {
 
     }
   
-    /**creo mi objeto, dentro de la posición i de mi array de objetos 
-      createShow(nameServer,arrayImageUrlServer);
-    */
+    //hago aquí un if que me compruebe si el nombre de la serie está guardado en el LocalStorage. Si está guardado, que me pinte el li con la clase list__element--favourite del CSS, sino, que me lo pinte normal
 
+      //me bajo el contenido del LocalStorage a un array y con el método includes, compruebo si ese arraydel Local Storage contiene el nombre que acaban de cargar en la lista
+    let arrayLocalStorageData = localStorage.getItem(keyLocalStorage);
+
+    console.log('viendo lo que tengo en el array en el que me bajo el contenido del localStorage',arrayLocalStorageData);
+
+    if(arrayLocalStorageData.contains(arrayShows[i].show.name)){
+      console.log('ya está almacenado en el Local Storage');
+
+    } else {
              
-    thingsToPaint += `
+      thingsToPaint += `
             <li class="list__element list__element${i}">
                 <img src="${arrayImageUrlServer[i]}" alt="${arrayShows[i].show.name}" class="elemet__image">
                 <p class="element__name">${arrayShows[i].show.name}</p>
             </li>`;  
+    }
  
   }
   /*console.log('nombre de la serie', nameServer);
@@ -148,7 +160,7 @@ function addToLocalStorage(data) {
   //Si hay datos guardados en localStorage
 
   //si no hay datos guardados, los guardo
-  localStorage.setItem('Favourite TV Shows', JSON.stringify(arrayFavourites));
+  localStorage.setItem(keyLocalStorage, JSON.stringify(arrayFavourites));
 }
 
 
