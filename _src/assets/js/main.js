@@ -6,6 +6,7 @@
 
 const inputName = document.querySelector('.search__name');
 const searchButton = document.querySelector('.search__button');
+const list = document.querySelector('.list');
 /*let arrayObjectsSeries = []; //array donde almaceno mis nuevos objetos*/
 
 function searchShow() {
@@ -20,7 +21,7 @@ function searchShow() {
       
       let arrayShows = data;
 
-      searchData(arrayShows);
+      paintData(arrayShows);
          
     });
 
@@ -31,39 +32,55 @@ function searchShow() {
  */
 function giveURL() {
   const questName = inputName.value; //guardamos el valor que escribe el usuario
-  console.log('nombre que da el usuario', questName);
-
   const url = `http://api.tvmaze.com/search/shows?q=${questName}`;
 
-  console.log('url de bśuqueda', url);
-
   return url;
-
 }
 
-/** Función que hace la búsqueda de los datos que necesitamos , en la respuesta que nos da el fetch */
+/** Función que hace la búsqueda de los datos que necesitamos , en la respuesta que nos da el fetch y que los pinta en el html*/
 
-function searchData (arrayShows) {
+function paintData (arrayShows) {
 
   let nameServer = [];
   let arrayImageUrlServer = [];
+  let thingsToPaint;
 
   //recorremos el array de resultados que nos devuelve la petición y almacenamos los resultados que nos interesan (nombre de serie y url de imagen) en nuestro propio array de objetos series
 
   for (let i = 0; i < arrayShows.length ; i++ ) {
     
     nameServer.push(arrayShows[i].show.name);
-    arrayImageUrlServer.push(arrayShows[i].show.image);
+
+    if (arrayShows[i].show.image){ // true
+    
+      arrayImageUrlServer.push(arrayShows[i].show.image.medium);
+
+    } else { //false
+    
+      arrayImageUrlServer.push('https://via.placeholder.com/210x295/cccccc/666666/?text=TV');
+
+    }
   
     /**creo mi objeto, dentro de la posición i de mi array de objetos 
       createShow(nameServer,arrayImageUrlServer);
     */
 
+             
+    thingsToPaint += `
+            <li class="list__element list__element${i}">
+                <img src="${arrayImageUrlServer[i]}" alt="${arrayShows[i].show.name}" class="elemet__image">
+                <p class="element__name">${arrayShows[i].show.name}</p>
+            </li>`;  
+ 
   }
-  console.log('nombre de la serie', nameServer);
+  /*console.log('nombre de la serie', nameServer);
   console.log('url de imagen', arrayImageUrlServer);
-      
+  console.log('lis almacenados', thingsToPaint);*/
+  list.innerHTML = thingsToPaint;
+    
 }
+
+
 
 
 /*
