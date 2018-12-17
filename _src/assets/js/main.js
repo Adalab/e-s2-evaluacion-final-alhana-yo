@@ -24,7 +24,6 @@ function searchShow() {
       paintData(arrayShows);
          
     });
-
 }
 
 /**Función que nos devuelve la URL con la búsqueda que quiere hacer el usuario
