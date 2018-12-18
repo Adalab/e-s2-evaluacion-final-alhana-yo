@@ -70,7 +70,6 @@ function paintData (arrayShows) {
             <img src="${arrayImageUrlServer[i]}" alt="${arrayShows[i].show.name}" class="elemet__image">
             <p class="element__name">${arrayShows[i].show.name}</p>
         </li>`; 
- 
   }
   list.innerHTML = thingsToPaint;
 
