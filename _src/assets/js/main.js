@@ -44,7 +44,7 @@ function paintData (arrayShows) {
   let nameServer = [];
   let arrayImageUrlServer = [];
   let thingsToPaint = '';
-  let isFavouriteClass = '';
+  /*let isFavouriteClass = '';*/
 
   //recorremos el array de resultados que nos devuelve la petición y almacenamos los resultados que nos interesan (nombre de serie y url de imagen) en nuestros propios arrays de nombres y urls, respectivamente.
 
@@ -63,23 +63,7 @@ function paintData (arrayShows) {
     }
 
     //hago aquí un if que me compruebe Si hay algo guardado en localStorage 
-
-    if (localStorage.getItem(keyLocalStorage)) { 
-    
-      let arrayLocalStorageData = JSON.parse(localStorage.getItem(keyLocalStorage));
-      arrayFavourites = arrayLocalStorageData;
-  
-      isFavouriteClass = '';
-
-      for (let j = 0; j < arrayLocalStorageData.length; j++) {
-        if(arrayLocalStorageData[j].includes(arrayShows[i].show.name)){
-          isFavouriteClass = 'list__element--favourite';
-        } 
-      }
-      
-    } else { //si no está en localStorage, no es favorito
-      isFavouriteClass = '';
-    }
+    let isFavouriteClass = isContentAddedToLocalStorage(i, arrayShows);
 
     thingsToPaint += `
         <li class="list__element list__element${i} ${isFavouriteClass}">
@@ -93,6 +77,37 @@ function paintData (arrayShows) {
 
   addListeners();
    
+}
+
+/**Función que comprueba si hay algo almacenado en localStorage
+ *** Si hay algo almacenado: busca si el título de una serie está contenido en el local storage. Y nos añade un valor en la clase de favoritos.
+ *** Si no hay nada almacenado: gaurdamos cadena vaciopara la clase favoritos.
+ * Recibe como parámetros la posición del array y el array que devuelve la petición del server.
+ * Devuelve el valor que debe tener la clase en el caso de que el dato revisado estén el array de favoritos.
+ */
+
+function isContentAddedToLocalStorage (i, arrayShows) {
+
+  let isFavouriteClass = '';
+
+  if (localStorage.getItem(keyLocalStorage)) { 
+    
+    let arrayLocalStorageData = JSON.parse(localStorage.getItem(keyLocalStorage));
+    arrayFavourites = arrayLocalStorageData;
+
+    isFavouriteClass = '';
+
+    for (let j = 0; j < arrayLocalStorageData.length; j++) {
+      if(arrayLocalStorageData[j].includes(arrayShows[i].show.name)){
+        isFavouriteClass = 'list__element--favourite';
+      } 
+    }
+    
+  } else { //si no está en localStorage, no es favorito
+    isFavouriteClass = '';
+  }
+
+  return isFavouriteClass;
 }
 
 /** Función con la que añadimos los listeners a los li que se hayan pintado */
