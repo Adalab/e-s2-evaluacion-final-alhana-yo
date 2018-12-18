@@ -32,7 +32,7 @@ function searchShow() {
  */
 function giveURL() {
   const questName = inputName.value; 
-  const url = `http://api.tvmaze.com/search/shows?q=${questName}`;
+  const url = `https://api.tvmaze.com/search/shows?q=${questName}`;
 
   return url;
 }
