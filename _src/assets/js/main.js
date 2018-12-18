@@ -45,6 +45,7 @@ function paintData (arrayShows) {
   let arrayImageUrlServer = [];
   let thingsToPaint = '';
   let isFavouriteClass = '';
+  let isFavouriteClassStar = '';
 
   //recorremos el array de resultados que nos devuelve la petición y almacenamos los resultados que nos interesan (nombre de serie y url de imagen) en nuestros propios arrays de nombres y urls, respectivamente.
 
@@ -70,19 +71,23 @@ function paintData (arrayShows) {
       arrayFavourites = arrayLocalStorageData;
   
       isFavouriteClass = '';
+      isFavouriteClassStar = '';
 
       for (let j = 0; j < arrayLocalStorageData.length; j++) {
         if(arrayLocalStorageData[j].includes(arrayShows[i].show.name)){
           isFavouriteClass = 'list__element--favourite';
+          isFavouriteClassStar = 'fas fa-star';
         } 
       }
       
     } else { //si no está en localStorage, no es favorito
       isFavouriteClass = '';
+      isFavouriteClassStar = '';
     }
 
     thingsToPaint += `
         <li class="list__element list__element${i} ${isFavouriteClass}">
+            <i class="${isFavouriteClassStar} star"></i>
             <img src="${arrayImageUrlServer[i]}" alt="${arrayShows[i].show.name}" class="elemet__image">
             <p class="element__name">${arrayShows[i].show.name}</p>
         </li>`; 

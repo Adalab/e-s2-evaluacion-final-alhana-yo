@@ -67,12 +67,21 @@ body {
 	align-items : center;
 	margin-top : 10px;
 	padding: 20px 0;
+	position : relative;
 }
 
 .list__element--favourite {
 	background-color : $mint-light;
 	border : 5px solid $green-bright ;
 
+}
+
+.star {
+	position : absolute ;
+	top : 10px;
+	right : 10px;
+	color : purple;
+	font-size : 20px; 
 }
 
 .element__name {
