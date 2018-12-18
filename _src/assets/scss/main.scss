@@ -1,12 +1,115 @@
 @import 'core/settings';
 
+$mint-light : #98ff98;
+$green-bright : #4cff4c;
+$purple-light : #cc98ff;
+
 body {
-	background: url('../images/logo-adalab-80px.png') center center no-repeat $color-white;
-	height: 100vh;
+	margin : 0;
+}
+
+.page__main {
+	//height: 100vh;
+	display : flex;
+	flex-direction : column;
+	align-items : center;
+	font-family: 'Trebuchet MS', sans-serif;
+
+}
+
+.tv-show {
+	display : flex;
+	flex-direction : column;
+	align-items : center;
+	
+}
+
+.search__wrapper {
+	display : inline-block;
+	
+}
+.search__name {
+	width : 200px;
+	outline : none;
+	border-radius : 0; 
+	border-top : none;
+	border-right :  none;
+	border-left : none;
+	border-bottom : 3px solid $purple-light;
+	font-size : 20px;
+	line-height : 20px;  
+}
+
+.search__button {
+	background-color : $purple-light;
+	color : white;
+	border : 1px solid purple;
+	border-radius : 2px;
+	cursor : pointer;
+	font-size : 20px;
+	line-height : 20px;  
+	padding : 5px 10px; 
+	margin-left : 10px;
+}
+
+.list {
+	padding : 0;
+
+}
+
+.list__element {
+	list-style : none;
 }
 
 .list__element--favourite {
-	background-color: #98ff98;
-	border: 5px solid #4cff4c;
+	background-color : $mint-light;
+	border : 5px solid $green-bright ;
+
+}
+
+
+/************************************/
+/*             TABLET               */
+
+@media all and (min-width: 768px){
+
+.search__name {
+	
+	width : 300px;
+}
+
+.list {
+	background-color : red;
+	width : 650px;
+	//height: 80vh;
+	display : grid;
+	grid-template-columns : 1fr, 1fr, 1fr, 1fr;
+	grid-auto-flow : row dense;
+	//grid-gap : 5px;
+
+}
+
+// .list__element {
+// 	grid-column: 1/2;
+// }
+
+
+
+
+}
+
+/************************************/
+/*             DESKTOP              */
+
+@media all and (min-width: 1024px){
+
+	.search__name {
+		
+		width : 400px;
+	}
+
+	.list {
+		width : 800px;
+	}
 
 }
