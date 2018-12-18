@@ -72,7 +72,6 @@ function paintData (arrayShows) {
         </li>`; 
  
   }
- 
   list.innerHTML = thingsToPaint;
 
   addListeners();
