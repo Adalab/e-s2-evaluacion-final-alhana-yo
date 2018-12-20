@@ -5,7 +5,7 @@ const searchButton = document.querySelector('.search__button');
 const list = document.querySelector('.list');
 let arrayFavourites = [];
 const keyLocalStorage = 'Favourite TV Shows';
-
+const p = document.querySelector('.number-results');
 
 
 /**Función que hace una petición de búsqueda al servidor con el dato que el usuario nos da.
@@ -21,6 +21,7 @@ function searchShow() {
     .then(function (data) {
       
       let arrayShows = data;
+      p.innerHTML = arrayShows.length;
 
       paintData(arrayShows);
          
@@ -32,7 +33,7 @@ function searchShow() {
  */
 function giveURL() {
   const questName = inputName.value; 
-  const url = `https://api.tvmaze.com/search/shows?q=${questName}`;
+  const url = `https://api.tvmaze.com/search/people?q=${questName}`;
 
   return url;
 }
@@ -45,33 +46,48 @@ function paintData (arrayShows) {
   let arrayImageUrlServer = [];
   let thingsToPaint = '';
   /*let isFavouriteClass = '';*/
+  let arrayBirthdays = [];
+
 
   //recorremos el array de resultados que nos devuelve la petición y almacenamos los resultados que nos interesan (nombre de serie y url de imagen) en nuestros propios arrays de nombres y urls, respectivamente.
 
   for (let i = 0; i < arrayShows.length ; i++ ) {
     
-    nameServer.push(arrayShows[i].show.name);
+    nameServer.push(arrayShows[i].person.name);
+    arrayBirthdays.push(arrayShows[i].person.birthday);
 
-    if (arrayShows[i].show.image){ // true
+
+
+    if (arrayShows[i].person.image){ // true
     
-      arrayImageUrlServer.push(arrayShows[i].show.image.medium);
+      arrayImageUrlServer.push(arrayShows[i].person.image.medium);
 
     } else { //false
     
       arrayImageUrlServer.push('https://via.placeholder.com/210x295/cccccc/666666/?text=TV');
 
     }
+    let b ='no hay datos';
+    if(arrayBirthdays[i]){
+      let x = arrayBirthdays[i];
+      let a=x.split('-');
+    
+      b = `<p class="element__birthday">${a[0]}</p>`;
 
+    }
     //hago aquí un if que me compruebe Si hay algo guardado en localStorage 
     let isFavouriteClass = isContentAddedToLocalStorage(i, arrayShows);
 
     thingsToPaint += `
         <li class="list__element list__element${i} ${isFavouriteClass}">
-            <img src="${arrayImageUrlServer[i]}" alt="${arrayShows[i].show.name}" class="elemet__image">
-            <p class="element__name">${arrayShows[i].show.name}</p>
+            <img src="${arrayImageUrlServer[i]}" alt="${arrayShows[i].person.name}" class="elemet__image">
+            <p class="element__name">${arrayShows[i].person.name}</p>
+            ${b}
+            
         </li>`; 
   }
   list.innerHTML = thingsToPaint;
+  console.log('birthdays', arrayBirthdays);
 
   addListeners();
    
@@ -96,7 +112,7 @@ function isContentAddedToLocalStorage (i, arrayShows) {
     isFavouriteClass = '';
 
     for (let j = 0; j < arrayLocalStorageData.length; j++) {
-      if(arrayLocalStorageData[j].includes(arrayShows[i].show.name)){
+      if(arrayLocalStorageData[j].includes(arrayShows[i].person.name)){
         isFavouriteClass = 'list__element--favourite';
       } 
     }
@@ -162,5 +178,9 @@ function addToLocalStorage(data) {
 }
 
 
+function hideFilms() {
+  list.classList.toggle('hide');
+}
 
 searchButton.addEventListener('click', searchShow);
+p.addEventListener('click', hideFilms);
